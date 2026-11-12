@@ -5,7 +5,7 @@ namespace RabbitMq\ManagementApi;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\PluginClient;
-use Http\Client\HttpClient;
+use Psr\Http\Client\ClientInterface;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
@@ -18,19 +18,19 @@ use Http\Message\Authentication\BasicAuth;
 class Client
 {
     /**
-     * @var HttpClient
+     * @var ClientInterface
      */
     protected $client;
     protected $messageFactory;
     protected $baseUrl;
 
     /**
-     * @param HttpClient $client
+     * @param ClientInterface $client
      * @param string $baseUrl
      * @param string $username
      * @param string $password
      */
-    public function __construct(HttpClient $client = null, $baseUrl = 'http://localhost:15672', $username = 'guest', $password = 'guest')
+    public function __construct(?ClientInterface $client = null, $baseUrl = 'http://localhost:15672', $username = 'guest', $password = 'guest')
     {
         $this->baseUrl = $baseUrl;
         $this->messageFactory = MessageFactoryDiscovery::find();
